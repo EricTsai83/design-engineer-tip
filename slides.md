@@ -64,3 +64,7 @@ src: ./pages/4-perception-of-speed.md
 hide: false
 ---
 
+---
+src: ./pages/5-ux.md
+hide: false
+---
