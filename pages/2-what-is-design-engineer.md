@@ -1,6 +1,7 @@
 ---
-layout: center
+layout: default
 ---
+<br/>
 
 # Design Engineer 是什麼?
 

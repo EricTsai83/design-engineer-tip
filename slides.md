@@ -55,13 +55,12 @@ hide: false
 ---
 
 ---
-src: ./pages/3-goal.md
+src: ./pages/3-product-oriented-animation-design.md
 hide: false
 ---
 
 ---
-src: ./pages/4-product-oriented-animation-design.md
+src: ./pages/4-perception-of-speed.md
 hide: false
 ---
-
 
