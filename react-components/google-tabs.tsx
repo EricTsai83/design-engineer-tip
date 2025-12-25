@@ -167,6 +167,9 @@ export default function GoogleTabs({
    */
   const handleTabClick = (tabId: string): void => {
     setActiveTabId(tabId);
+    // 點擊換頁時，取消 tooltip
+    setShowTooltip(false);
+    clearHoverTimeout();
   };
 
   const activeTab = tabs.find((tab) => tab.id === activeTabId);
