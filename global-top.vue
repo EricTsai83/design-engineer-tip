@@ -1,5 +1,5 @@
 <template>
-  <header class="absolute top-5 left-5">
+  <header class="absolute top-5 left-5 flex items-center gap-2">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -10,17 +10,11 @@
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="lucide lucide-layers-icon lucide-layers"
+      class="lucide lucide-highlighter-icon lucide-highlighter"
     >
-      <path
-        d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"
-      />
-      <path
-        d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"
-      />
-      <path
-        d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"
-      />
+      <path d="m9 11-6 6v3h9l3-3" />
+      <path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4" />
     </svg>
+    Design Tips
   </header>
 </template>
