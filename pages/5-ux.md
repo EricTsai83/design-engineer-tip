@@ -8,20 +8,26 @@ clicks: 2
 # 根據情境調整動畫
 
 <div class="flex flex-col pt-3">
-  <div class="flex justify-center gap-36">
+  <div class="flex justify-center gap-4">
     <div class="flex flex-col items-center">
-      <React is="google-tabs"  />
+      <React is="google-tabs" tooltipDelay="none" />
+    </div>
+       <div class="flex flex-col items-center">
+      <React is="google-tabs" tooltipDelay="default" />
     </div>
     <div class="flex flex-col items-center">
-      <React is="google-tabs" skipDelayOnContinuousHover="enabled" />
+      <React is="google-tabs" tooltipDelay="skipOnContinuous" />
     </div>
   </div>
-  <div v-click="1" class="flex justify-center gap-36">
+  <div v-click="1" class="flex justify-center gap-26">
     <div class="flex flex-col items-center">
-      <p class="w-56">400ms 的動畫設計，會造成使用者有種延遲的不舒服感</p>
+      <p class="w-56">完全無延遲，立即顯示 tooltip</p>
     </div>
     <div class="flex flex-col items-center">
-      <p class="w-56">適當的動畫速度(180ms)能讓使用者感到舒適，也不會有物件憑空出現的感覺</p>
+      <p class="w-56">預設或非連續 hover，使用正常 delay</p>
+    </div>
+     <div class="flex flex-col items-center">
+      <p class="w-56">連續 hover，立即顯示 tooltip，無延遲</p>
     </div>
   </div>
 </div>

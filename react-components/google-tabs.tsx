@@ -13,8 +13,10 @@ type TooltipPosition = {
 
 const TOOLTIP_DELAY_MS = 500;
 
+type TooltipDelayMode = "default" | "skipOnContinuous" | "none";
+
 type GoogleTabsProps = {
-  readonly skipDelayOnContinuousHover?: string;
+  readonly tooltipDelay?: TooltipDelayMode;
 };
 
 /**
@@ -65,7 +67,7 @@ const tabs: readonly Tab[] = [
 ];
 
 export default function GoogleTabs({
-  skipDelayOnContinuousHover,
+  tooltipDelay = "default",
 }: GoogleTabsProps = {}) {
   const [activeTabId, setActiveTabId] = useState<string>(tabs[0]?.id ?? "");
   const [hoveredTabId, setHoveredTabId] = useState<string | undefined>(
@@ -110,11 +112,18 @@ export default function GoogleTabs({
 
     const now = Date.now();
     const isContinuousHover =
-      skipDelayOnContinuousHover !== undefined && lastHoverTimeRef.current > 0;
+      tooltipDelay === "skipOnContinuous" && lastHoverTimeRef.current > 0;
 
     lastHoverTimeRef.current = now;
 
-    if (isContinuousHover) {
+    if (tooltipDelay === "none") {
+      // 完全無延遲，立即顯示 tooltip
+      const position = calculateTooltipPosition(tabElement);
+      if (position) {
+        setTooltipPosition(position);
+        setShowTooltip(true);
+      }
+    } else if (isContinuousHover) {
       // 連續 hover，立即顯示 tooltip，無延遲
       const position = calculateTooltipPosition(tabElement);
       if (position) {
@@ -122,7 +131,7 @@ export default function GoogleTabs({
         setShowTooltip(true);
       }
     } else {
-      // 非連續 hover，使用正常 delay
+      // 預設或非連續 hover，使用正常 delay
       hoverTimeoutRef.current = setTimeout(() => {
         const position = calculateTooltipPosition(tabElement);
         if (position) {
@@ -133,7 +142,7 @@ export default function GoogleTabs({
     }
 
     return clearHoverTimeout;
-  }, [hoveredTabId, skipDelayOnContinuousHover]);
+  }, [hoveredTabId, tooltipDelay]);
 
   /**
    * 处理 tab hover 进入
