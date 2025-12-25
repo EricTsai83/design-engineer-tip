@@ -33,7 +33,7 @@ clicks: 2
 </div>
 
 <div v-if="$slidev.nav.clicks >= 1" v-mark.red="2" class="absolute bottom-15 left-20">
-  tip: 動畫需要跟使用者的行為進行調整，來極大化使用者體驗
+  tip: 動畫需根據使用者的行為進行調整，來極大化使用者體驗
 </div>
 
 
