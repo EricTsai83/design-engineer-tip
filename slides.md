@@ -41,75 +41,27 @@ fonts:
 # class: prose mx-auto
 colorSchema: dark
 lineNumbers: true
+addons:
+  - slidev-addon-react
 ---
 
 # 做出感覺對了的網站動畫
 
 Eric 的不專業設計分享
 
+---
+src: ./pages/2-what-is-design-engineer.md
+hide: false
+---
 
-<!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
--->
+---
+src: ./pages/3-goal.md
+hide: false
+---
 
 ---
-src: ./pages/2-what-is-slidev.md
+src: ./pages/4-product-oriented-animation-design.md
 hide: false
 ---
----
-src: ./pages/3-navigation.md
-hide: false
----
----
-src: ./pages/4-table-of-contents.md
-hide: false
----
----
-src: ./pages/5-code.md
-hide: false
----
----
-src: ./pages/6-shiki-magic-move.md
-hide: false
----
----
-src: ./pages/7-components.md
-hide: false
----
----
-src: ./pages/8-themes.md
-hide: false
----
----
-src: ./pages/9-clicks-animations.md
-hide: false
----
----
-src: ./pages/10-motions.md
-hide: false
----
----
-src: ./pages/11-latex.md
-hide: false
----
----
-src: ./pages/12-diagrams.md
-hide: false
----
----
-src: ./pages/13-draggable-elements.md
-hide: false
----
----
-src: ./pages/14-monaco-editor.md
-hide: false
----
----
-src: ./pages/15-learn-more.md
-hide: false
----
----
-src: ./pages/16-question.md
-hide: false
----
+
 
