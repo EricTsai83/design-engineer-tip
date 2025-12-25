@@ -8,7 +8,7 @@ clicks: 6
 # 速度的感知
 
 <!-- 第一步：顯示 loading spinner -->
-<div v-if="$slidev.nav.clicks <= 3" class="flex flex-col mt-24">
+<div v-if="$slidev.nav.clicks <= 3 && $slidev.nav.clicks > 0" class="flex flex-col mt-24">
   <div class="flex justify-center gap-12">
     <div v-click="1" class="flex flex-col items-center">
       <React is="loading-spinner" speed="slow" />
