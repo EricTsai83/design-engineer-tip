@@ -1,6 +1,6 @@
 ---
 layout: default
-clicks: 6
+clicks: 8
 ---
 <br/>
 
@@ -26,7 +26,7 @@ clicks: 6
 </div>
 
 <!-- 第二步：顯示 dropdown menu -->
-<div  class="flex flex-col mt-24">
+<div v-if="$slidev.nav.clicks >= 4 && $slidev.nav.clicks <= 5" class="flex flex-col mt-24">
   <div class="flex justify-center gap-48">
     <div class="flex flex-col items-center">
       <React v-click="4" is="dropdown-menu" duration="slow" />
@@ -39,7 +39,21 @@ clicks: 6
   </div>
 </div>
 
-<div v-if="$slidev.nav.clicks === 6" v-mark.red="6" class="absolute bottom-15 left-20">
+
+<div v-if="$slidev.nav.clicks >= 6 && $slidev.nav.clicks <= 7" class="flex flex-col mt-24">
+  <div class="flex justify-center gap-36">
+    <div class="flex flex-col items-center">
+      <React v-click="6" is="google-tabs"  />
+      <p v-click="7" class="w-56">400ms 的動畫設計，會造成使用者有種延遲的不舒服感</p>
+    </div>
+    <div class="flex flex-col items-center">
+      <React v-click="6" is="google-tabs" skipDelayOnContinuousHover="enabled" />
+      <p v-click="7" class="w-56">適當的動畫速度(180ms)能讓使用者感到舒適，也不會有物件憑空出現的感覺</p>
+    </div>
+  </div>
+</div>
+
+<div v-if="$slidev.nav.clicks === 8" v-mark.red="8" class="absolute bottom-15 left-20">
   tip: 緩慢的動畫會讓使用者出現感覺網站很慢的錯覺
 </div>
 
