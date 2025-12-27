@@ -49,41 +49,41 @@ addons:
 Eric 的不專業設計分享
 
 ---
-src: ./pages/taste-is-eating-software.md
+src: ./pages/2-taste-is-eating-software.md
 hide: false
 ---
 
 ---
-src: ./pages/taste-is-trained-instinct.md
+src: ./pages/3-taste-is-trained-instinct.md
 hide: false
 ---
 
 ---
-src: ./pages/stop-watching-start-building.md
+src: ./pages/4-stop-watching-start-building.md
 hide: false
 ---
 
 ---
-src: ./pages/2-what-is-design-engineer.md
+src: ./pages/5-what-is-design-engineer.md
 hide: false
 ---
 
 ---
-src: ./pages/3-product-oriented-animation-design.md
+src: ./pages/6-product-oriented-animation-design.md
 hide: false
 ---
 
 ---
-src: ./pages/4-perception-of-speed.md
+src: ./pages/7-perception-of-speed.md
 hide: false
 ---
 
 ---
-src: ./pages/5-ux.md
+src: ./pages/8-ux.md
 hide: false
 ---
 
 ---
-src: ./pages/6-details-matter.md
+src: ./pages/9-details-matter.md
 hide: false
 ---
