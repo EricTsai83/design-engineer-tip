@@ -9,10 +9,9 @@ theme: ./theme
 title: Slidev Starter Template
 favicon: /favicon.webp
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
+  ## Developing Taste & Animation
+  Introduction to the animation demo.
 
-  Learn more at [Sli.dev](https://sli.dev)
 # apply unocss classes to the current slide
 # class: text-center
 # https://sli.dev/features/drawing
@@ -48,6 +47,21 @@ addons:
 # 做出感覺對了的網站動畫
 
 Eric 的不專業設計分享
+
+---
+src: ./pages/taste-is-eating-software.md
+hide: false
+---
+
+---
+src: ./pages/taste-is-trained-instinct.md
+hide: false
+---
+
+---
+src: ./pages/stop-watching-start-building.md
+hide: false
+---
 
 ---
 src: ./pages/2-what-is-design-engineer.md
