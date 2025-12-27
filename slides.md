@@ -68,3 +68,8 @@ hide: false
 src: ./pages/5-ux.md
 hide: false
 ---
+
+---
+src: ./pages/6-details-matter.md
+hide: false
+---
