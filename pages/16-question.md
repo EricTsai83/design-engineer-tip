@@ -1,6 +1,0 @@
----
-layout: center
----
-
-# Questions?
-
