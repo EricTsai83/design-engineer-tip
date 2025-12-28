@@ -6,6 +6,7 @@ import GoogleTabs from "./google-tabs.tsx";
 import CopyButton from "./copy-button.tsx";
 import TasteComparison from "./taste-comparison.tsx";
 import SubmitForm from "./submit-form.tsx";
+import ListToDetail from "./list-to-detail.tsx";
 
 export default {
   ToastButton,
@@ -16,4 +17,5 @@ export default {
   CopyButton,
   TasteComparison,
   SubmitForm,
+  ListToDetail,
 };

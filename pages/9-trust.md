@@ -1,6 +1,6 @@
 ---
 layout: default
-clicks: 2
+clicks: 4
 ---
 <br/>
 
@@ -8,7 +8,7 @@ clicks: 2
 # 動畫不只是讓人開心，還能讓人放心
 ### 使用者會信任「看得懂、可預期、會回應」的系統
 
-<div class="flex flex-col pt-3">
+<div v-if="$slidev.nav.clicks <= 2" class="flex flex-col pt-3">
   <div class="flex justify-center gap-4">
     <div class="flex flex-col items-center">
       <React is="submit-form" mode="no-feedback" />
@@ -27,8 +27,32 @@ clicks: 2
   </div>
 </div>
 
-<div v-if="$slidev.nav.clicks >= 1" v-mark.red="2" class="absolute bottom-15 left-20">
+<div v-if="$slidev.nav.clicks >= 1 && $slidev.nav.clicks < 3" v-mark.red="2" class="absolute bottom-15 left-20">
   tip: 動畫能給予使用者行為即時的回饋，增加使用者對於系統的信任感
+</div>
+
+<!-- 第二個例子：列表到詳情頁過渡 -->
+<div v-if="$slidev.nav.clicks >= 3" class="flex flex-col pt-3">
+  <div class="flex justify-center gap-4">
+    <div class="flex flex-col items-center">
+      <React is="list-to-detail"  />
+    </div>
+     <div class="flex flex-col items-center">
+      <React is="list-to-detail"  />
+    </div>
+  </div>
+  <div class="flex justify-center gap-22 mt-4">
+     <div class="flex flex-col items-center">
+      <p class="w-48">點擊後畫面瞬切，使用者要重新「定位自己在哪」</p>
+    </div>
+    <div class="flex flex-col items-center">
+      <p class="w-48">被點擊的列放大/移動，其他列淡出，Detail從同一位置延展，保持連續性</p>
+    </div>
+  </div>
+</div>
+
+<div v-if="$slidev.nav.clicks >= 3" v-mark.red="4" class="absolute bottom-15 left-20">
+  tip: 動畫能建立視覺連續性，讓使用者清楚知道「從哪裡來，到哪裡去」
 </div>
 
 
