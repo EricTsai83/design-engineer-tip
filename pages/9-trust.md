@@ -33,21 +33,10 @@ clicks: 4
 
 <!-- 第二個例子：列表到詳情頁過渡 -->
 <div v-if="$slidev.nav.clicks >= 3" class="flex flex-col pt-3">
-  <div class="flex justify-center gap-4">
-    <div class="flex flex-col items-center">
-      <React is="list-to-detail"  />
-    </div>
-     <div class="flex flex-col items-center">
-      <React is="list-to-detail"  />
-    </div>
-  </div>
-  <div class="flex justify-center gap-22 mt-4">
-     <div class="flex flex-col items-center">
-      <p class="w-48">點擊後畫面瞬切，使用者要重新「定位自己在哪」</p>
-    </div>
-    <div class="flex flex-col items-center">
-      <p class="w-48">被點擊的列放大/移動，其他列淡出，Detail從同一位置延展，保持連續性</p>
-    </div>
+  <div class="flex justify-center gap-36">
+    <React is="list-to-detail"  mode="instant"/>
+    <React is="list-to-detail"  />
+
   </div>
 </div>
 

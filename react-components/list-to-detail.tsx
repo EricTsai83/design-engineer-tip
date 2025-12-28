@@ -1,261 +1,392 @@
-import React, { useState, useRef, useLayoutEffect } from "react";
-import { createPortal } from "react-dom";
+"use client";
 
-type AppItem = {
-  id: string;
-  title: string;
-  subtitle: string;
+import React, { useEffect, useId, useRef, useState, useCallback } from "react";
+
+type Card = {
   description: string;
-  image: string;
+  title: string;
+  src: string;
+  ctaText: string;
+  ctaLink: string;
+  content: () => React.ReactNode;
 };
 
-const apps: AppItem[] = [
-  {
-    id: "1",
-    title: "The Oddysey",
-    subtitle: "Explore unknown galaxies.",
-    description:
-      "Throughout their journey, players will encounter diverse alien races, each with their own unique cultures and technologies. Engage in thrilling space combat, negotiate complex diplomatic relations, and make critical decisions that affect the balance of power in the galaxy.",
-    image: "https://picsum.photos/seed/space/200",
-  },
-  {
-    id: "2",
-    title: "Angry Rabbits",
-    subtitle: "They are coming for you.",
-    description:
-      "Defend your garden from waves of furious rabbits! Build towers, set traps, and use special abilities to protect your precious carrots.",
-    image: "https://picsum.photos/seed/rabbit/200",
-  },
-  {
-    id: "3",
-    title: "Ghost town",
-    subtitle: "Scarry ghosts.",
-    description:
-      "Explore an abandoned town filled with supernatural mysteries. Solve puzzles, uncover the dark history, and survive the night.",
-    image: "https://picsum.photos/seed/ghost/200",
-  },
-  {
-    id: "4",
-    title: "Pirates in the jungle",
-    subtitle: "Find the treasure.",
-    description:
-      "Navigate through dangerous jungles, fight rival pirates, and discover hidden treasures in this epic adventure game.",
-    image: "https://picsum.photos/seed/pirate/200",
-  },
-];
+type CardRect = {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+};
 
-type ModalState = {
-  app: AppItem;
-  rect: DOMRect;
-} | null;
+type ListToDetailProps = {
+  mode?: "animated" | "instant";
+};
 
-function AppStoreList() {
-  const [modalState, setModalState] = useState<ModalState>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const itemRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+export default function ListToDetail({ mode = "animated" }: ListToDetailProps) {
+  const [active, setActive] = useState<Card | null>(null);
+  const [animationState, setAnimationState] = useState<
+    "idle" | "expanding" | "expanded" | "collapsing"
+  >("idle");
+  const [flipStyles, setFlipStyles] = useState<React.CSSProperties>({});
+  const [hiddenCardTitle, setHiddenCardTitle] = useState<string | null>(null);
+  const [isExpanding, setIsExpanding] = useState(false);
 
-  function handleItemClick(app: AppItem, element: HTMLDivElement) {
-    const rect = element.getBoundingClientRect();
-    setModalState({ app, rect });
-    // 觸發進入動畫
-    requestAnimationFrame(() => {
-      setIsAnimating(true);
-    });
+  const modalRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<Map<string, HTMLLIElement>>(new Map());
+  const startRect = useRef<CardRect | null>(null);
+  const id = useId();
+
+  // 取得卡片的 ref
+  const setCardRef = useCallback((title: string, el: HTMLLIElement | null) => {
+    if (el) {
+      cardRefs.current.set(title, el);
+    } else {
+      cardRefs.current.delete(title);
+    }
+  }, []);
+
+  // FLIP 動畫：展開
+  function handleCardClick(card: Card) {
+    if (mode === "instant") {
+      // 無動畫模式：直接顯示 modal
+      setActive(card);
+      setAnimationState("expanded");
+      return;
+    }
+
+    const cardEl = cardRefs.current.get(card.title);
+    if (!cardEl) return;
+
+    // First: 記錄起始位置
+    const rect = cardEl.getBoundingClientRect();
+    startRect.current = {
+      top: rect.top,
+      left: rect.left,
+      width: rect.width,
+      height: rect.height,
+    };
+
+    setIsExpanding(true);
+    setHiddenCardTitle(card.title);
+    setActive(card);
+    setAnimationState("expanding");
   }
 
+  // 展開動畫：計算 FLIP
+  useEffect(() => {
+    if (
+      mode === "instant" ||
+      animationState !== "expanding" ||
+      !modalRef.current ||
+      !startRect.current
+    )
+      return;
+
+    const modalEl = modalRef.current;
+    const first = startRect.current;
+
+    // Last: 取得目標位置
+    const last = modalEl.getBoundingClientRect();
+
+    // Invert: 計算差異
+    const deltaX = first.left - last.left + (first.width - last.width) / 2;
+    const deltaY = first.top - last.top + (first.height - last.height) / 2;
+    const scaleX = first.width / last.width;
+    const scaleY = first.height / last.height;
+
+    // 設定初始 transform（從卡片位置開始）
+    setFlipStyles({
+      transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
+      transition: "none",
+    });
+
+    // Play: 下一幀開始動畫
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setFlipStyles({
+          transform: "translate(0, 0) scale(1, 1)",
+          transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        });
+        setAnimationState("expanded");
+        setIsExpanding(false);
+      });
+    });
+  }, [animationState, mode]);
+
+  // 關閉動畫：反向 FLIP
   function handleClose() {
-    setIsAnimating(false);
-    // 等動畫結束後清除 modal
+    if (mode === "instant") {
+      // 無動畫模式：直接關閉
+      setActive(null);
+      setAnimationState("idle");
+      setFlipStyles({});
+      startRect.current = null;
+      setHiddenCardTitle(null);
+      setIsExpanding(false);
+      return;
+    }
+
+    if (!active || !modalRef.current || !startRect.current) {
+      setActive(null);
+      setAnimationState("idle");
+      setHiddenCardTitle(null);
+      setIsExpanding(false);
+      return;
+    }
+
+    const modalEl = modalRef.current;
+    const first = startRect.current;
+    const last = modalEl.getBoundingClientRect();
+
+    const deltaX = first.left - last.left + (first.width - last.width) / 2;
+    const deltaY = first.top - last.top + (first.height - last.height) / 2;
+    const scaleX = first.width / last.width;
+    const scaleY = first.height / last.height;
+
+    setAnimationState("collapsing");
+    setFlipStyles({
+      transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
+      transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+    });
+
     setTimeout(() => {
-      setModalState(null);
+      setActive(null);
+      setAnimationState("idle");
+      setFlipStyles({});
+      startRect.current = null;
+      // 延遲清除 hiddenCardTitle，讓文字在 collapse 動畫完成後平滑浮出
+      setTimeout(() => {
+        setHiddenCardTitle(null);
+      }, 50);
     }, 300);
   }
 
-  function handleKeyDown(
-    e: React.KeyboardEvent,
-    app: AppItem,
-    element: HTMLDivElement,
-  ) {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      handleItemClick(app, element);
+  // ESC 關閉 & body overflow
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        handleClose();
+      }
     }
-  }
+
+    if (active) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [active]);
+
+  useOutsideClick(modalRef, handleClose);
+
+  const isOpen =
+    mode === "instant"
+      ? active !== null
+      : animationState === "expanding" || animationState === "expanded";
+  const showBackdrop = active !== null;
 
   return (
-    <div className="bg-gray-100 p-4">
-      <div className="bg-white rounded-2xl divide-y divide-gray-100 shadow-sm overflow-hidden">
-        {apps.map((app) => (
-          <div
-            key={app.id}
-            ref={(el) => {
-              if (el) itemRefs.current.set(app.id, el);
-            }}
-            role="button"
-            tabIndex={0}
-            aria-label={`查看 ${app.title} 詳情`}
-            onClick={(e) => handleItemClick(app, e.currentTarget)}
-            onKeyDown={(e) => handleKeyDown(e, app, e.currentTarget)}
-            className={`flex items-center gap-3 p-2 cursor-pointer hover:bg-gray-50 transition-colors ${
-              modalState?.app.id === app.id ? "opacity-0" : "opacity-100"
+    <>
+      {/* Backdrop */}
+      {showBackdrop && (
+        <div
+          className={`fixed inset-0 bg-black/20 h-full w-full z-10 transition-opacity duration-300 ${
+            isOpen ? "opacity-100" : "opacity-0"
+          }`}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Expanded Card Modal */}
+      {active && (
+        <div className="fixed inset-0 grid place-items-center z-[100]">
+          <button
+            type="button"
+            className={`absolute top-2 right-2 lg:hidden flex items-center justify-center bg-white rounded-full h-6 w-6 z-10 transition-opacity duration-200 ${
+              isOpen ? "opacity-100" : "opacity-0"
             }`}
+            onClick={handleClose}
+            aria-label="關閉"
           >
-            <img
-              src={app.image}
-              alt={app.title}
-              className="w-12 h-12 rounded-xl object-cover flex-shrink-0"
-            />
-            <div className="flex flex-col">
-              <div className="font-semibold text-gray-900 truncate text-sm">
-                {app.title}
+            <CloseIcon />
+          </button>
+
+          <div
+            ref={modalRef}
+            style={mode === "instant" ? {} : flipStyles}
+            className="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden origin-center"
+          >
+            <div
+              className={`transition-opacity duration-200 ${
+                isOpen ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <div className="flex justify-between items-start px-6 md:p-8">
+                <div>
+                  <div className="font-bold text-neutral-700 dark:text-neutral-200">
+                    {active.title}
+                  </div>
+                  <div className="text-neutral-600 dark:text-neutral-400">
+                    {active.description}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white hover:bg-green-600 transition-colors duration-150"
+                  aria-label="關閉"
+                >
+                  關閉
+                </button>
               </div>
-              <div className="text-xs text-gray-500 truncate">
-                {app.subtitle}
+
+              <div className="pt-4 relative px-4">
+                <div className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]">
+                  {active.content()}
+                </div>
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Card List */}
+      <ul className="max-w-2xl mx-auto w-full gap-4">
+        {cards.map((card) => (
+          <li
+            key={`card-${card.title}-${id}`}
+            ref={(el) => setCardRef(card.title, el)}
+            role="button"
+            tabIndex={0}
+            onClick={() => handleCardClick(card)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                handleCardClick(card);
+              }
+            }}
+            className={`p-4 flex flex-col md:flex-row justify-between items-center hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer transition-all duration-150 transition-opacity ${
+              mode === "instant"
+                ? "opacity-100"
+                : isExpanding && hiddenCardTitle === card.title
+                  ? "duration-100"
+                  : "duration-300 ease-in-out"
+            } ${mode === "instant" || hiddenCardTitle !== card.title ? "opacity-100" : "opacity-0"}`}
+            aria-label={`展開 ${card.title}`}
+          >
+            <div className="flex gap-4 flex-col md:flex-row px-6 md:px-8">
+              <div>
+                <div className="text-sm font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left">
+                  {card.title}
+                </div>
+                <div className="text-xs text-neutral-600 dark:text-neutral-400 text-center md:text-left">
+                  {card.description}
+                </div>
+              </div>
+            </div>
+            <span className="px-3 py-1.5 text-xs rounded-full font-bold bg-gray-100 hover:bg-green-500 hover:text-white text-black mt-4 md:mt-0 transition-colors duration-150">
+              {card.ctaText}
+            </span>
+          </li>
         ))}
-      </div>
-
-      {/* Modal Portal */}
-      {modalState &&
-        createPortal(
-          <ExpandedModal
-            app={modalState.app}
-            initialRect={modalState.rect}
-            isAnimating={isAnimating}
-            onClose={handleClose}
-          />,
-          document.body,
-        )}
-    </div>
+      </ul>
+    </>
   );
 }
 
-type ExpandedModalProps = {
-  app: AppItem;
-  initialRect: DOMRect;
-  isAnimating: boolean;
-  onClose: () => void;
-};
-
-function ExpandedModal({
-  app,
-  initialRect,
-  isAnimating,
-  onClose,
-}: ExpandedModalProps) {
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  // 計算初始位置的 transform
-  const getInitialTransform = () => {
-    const modalWidth = Math.min(500, window.innerWidth - 32);
-    const modalHeight = 400;
-    const finalX = (window.innerWidth - modalWidth) / 2;
-    const finalY = (window.innerHeight - modalHeight) / 2;
-
-    const scaleX = initialRect.width / modalWidth;
-    const scaleY = initialRect.height / modalHeight;
-    const translateX = initialRect.left - finalX;
-    const translateY = initialRect.top - finalY;
-
-    return {
-      translateX,
-      translateY,
-      scaleX,
-      scaleY,
-      modalWidth,
-      modalHeight,
-      finalX,
-      finalY,
-    };
-  };
-
-  const { translateX, translateY, scaleX, scaleY, modalWidth, finalX, finalY } =
-    getInitialTransform();
-
-  function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === "Escape") {
-      onClose();
-    }
-  }
-
-  // Focus modal on mount
-  useLayoutEffect(() => {
-    modalRef.current?.focus();
-  }, []);
-
+function CloseIcon() {
   return (
-    <div className="fixed inset-0 z-50" onKeyDown={handleKeyDown}>
-      {/* Backdrop */}
-      <div
-        className={`absolute inset-0 bg-black transition-opacity duration-300 ${
-          isAnimating ? "opacity-50" : "opacity-0"
-        }`}
-        onClick={onClose}
-        aria-hidden="true"
-      />
-
-      {/* Modal Card */}
-      <div
-        ref={modalRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label={`${app.title} 詳情`}
-        tabIndex={-1}
-        className="absolute bg-white rounded-2xl shadow-2xl overflow-hidden outline-none"
-        style={{
-          width: modalWidth,
-          left: finalX,
-          top: finalY,
-          transformOrigin: "top left",
-          transition:
-            "transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms",
-          transform: isAnimating
-            ? "translate(0, 0) scale(1)"
-            : `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`,
-          opacity: isAnimating ? 1 : 0.8,
-        }}
-      >
-        {/* Header */}
-        <div className="flex items-center gap-4 p-4 border-b border-gray-100">
-          <img
-            src={app.image}
-            alt={app.title}
-            className="w-16 h-16 rounded-2xl object-cover flex-shrink-0"
-          />
-          <div className="flex-1 min-w-0">
-            <p className="font-semibold text-gray-900 text-lg">{app.title}</p>
-            <p className="text-sm text-gray-500">{app.subtitle}</p>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="p-4">
-          <p className="text-sm text-gray-600 leading-relaxed">
-            {app.description}
-          </p>
-        </div>
-
-        {/* Close Button */}
-        <div
-          onClick={onClose}
-          role="button"
-          tabIndex={0}
-          aria-label="關閉"
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              onClose();
-            }
-          }}
-          className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
-        >
-          <div className="text-gray-600 text-lg leading-none">×</div>
-        </div>
-      </div>
-    </div>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-4 w-4 text-black"
+      aria-hidden="true"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M18 6l-12 12" />
+      <path d="M6 6l12 12" />
+    </svg>
   );
 }
 
-export default AppStoreList;
+const cards: Card[] = [
+  {
+    description: "NT$ 180",
+    title: "紅燒牛肉麵",
+    src: "https://assets.aceternity.com/demos/lana-del-rey.jpeg",
+    ctaText: "查看",
+    ctaLink: "https://ui.aceternity.com/templates",
+    content: () => (
+      <div>
+        經典台灣牛肉麵，選用優質牛腱肉，經過長時間慢火燉煮，肉質軟嫩入味。湯頭以中藥材和香料熬製，濃郁香醇。搭配手工拉麵，Q彈有嚼勁。配菜包括酸菜、蔥花和香菜，增添層次風味。
+      </div>
+    ),
+  },
+  {
+    description: "NT$ 120",
+    title: "小籠包",
+    src: "https://assets.aceternity.com/demos/babbu-maan.jpeg",
+    ctaText: "查看",
+    ctaLink: "https://ui.aceternity.com/templates",
+    content: () => (
+      <div>
+        手工現包小籠包，外皮薄透，內餡鮮美多汁。選用新鮮豬肉和特製高湯，每一口都充滿湯汁。搭配薑絲和黑醋，提升鮮味。建議趁熱食用，感受湯汁在口中爆開的滿足感。
+      </div>
+    ),
+  },
+  {
+    description: "NT$ 150",
+    title: "三杯雞",
+    src: "https://assets.aceternity.com/demos/metallica.jpeg",
+    ctaText: "查看",
+    ctaLink: "https://ui.aceternity.com/templates",
+    content: () => (
+      <div>
+        傳統台菜經典，以一杯麻油、一杯米酒、一杯醬油調味而得名。選用新鮮雞腿肉，與九層塔、薑片、蒜頭一同爆炒，香氣四溢。雞肉鮮嫩多汁，醬汁濃郁下飯，是台灣人最愛的家常菜之一。
+      </div>
+    ),
+  },
+  {
+    description: "NT$ 100",
+    title: "蚵仔煎",
+    src: "https://assets.aceternity.com/demos/led-zeppelin.jpeg",
+    ctaText: "查看",
+    ctaLink: "https://ui.aceternity.com/templates",
+    content: () => (
+      <div>
+        台灣夜市經典小吃，選用新鮮蚵仔，搭配雞蛋和地瓜粉漿煎製而成。外層酥脆，內層軟嫩，蚵仔鮮甜飽滿。淋上特製甜辣醬，風味更佳。是台灣最具代表性的街頭美食之一。
+      </div>
+    ),
+  },
+];
+export const useOutsideClick = (
+  ref: React.RefObject<HTMLDivElement>,
+  callback: Function,
+) => {
+  useEffect(() => {
+    const listener = (event: any) => {
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
+      }
+      callback(event);
+    };
+
+    document.addEventListener("mousedown", listener);
+    document.addEventListener("touchstart", listener);
+
+    return () => {
+      document.removeEventListener("mousedown", listener);
+      document.removeEventListener("touchstart", listener);
+    };
+  }, [ref, callback]);
+};
