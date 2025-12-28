@@ -40,6 +40,7 @@ layout: default
     <div class="absolute -top-5 left-4 px-3 py-1 bg-gray-900 border border-gray-700 rounded-md text-base text-orange-400 font-mono shadow-lg">
       例子：讓畫面上這個物件變不見
     </div>
+    <React is="taste-comparison" variant="with-taste" class="absolute top-3 right-4"/>
     <div class="space-y-8 mt-3">
       <!-- 對比 A：沒有品味的直覺 -->
       <div >
@@ -56,10 +57,10 @@ layout: default
         </div>
       </div>
     </div>
-    <div v-click="5" class="mt-6 text-center opacity-80">
-      「<b>動畫效果</b>」就是前端開發者證明自己品味的方式。
+    <div v-click="5" class="mt-6 text-center opacity-80 text-base">
+      「<b>動畫效果</b>」就是前端開發者證明自己品味的方式
     </div>
-            <React is="taste-comparison" variant="with-taste" />
+    
   </div>
 
 </div>
