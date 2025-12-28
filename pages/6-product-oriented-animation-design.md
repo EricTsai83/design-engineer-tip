@@ -60,7 +60,7 @@ clicks: 7
   <React is="list" variant="appropriate" />
 </div>
 <div v-mark.red="7" class="absolute bottom-15 left-20">
-  tip: 高頻率操作行為有關的動畫要盡量簡潔快速
+  tip: 高頻率操作行為有關的動畫要盡量簡潔快速，或根本不要用動畫
 </div>
 </div>
 

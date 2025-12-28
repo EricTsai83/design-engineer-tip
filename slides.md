@@ -44,7 +44,7 @@ addons:
   - slidev-addon-react
 ---
 
-# 做出感覺對了的網站動畫
+# 如何做出<span class="text-orange-400">感覺對了</span>的網站動畫
 
 Eric 的不專業設計分享
 
@@ -84,6 +84,11 @@ hide: false
 ---
 
 ---
-src: ./pages/9-details-matter.md
+src: ./pages/9-trust.md
+hide: false
+---
+
+---
+src: ./pages/10-details-matter.md
 hide: false
 ---

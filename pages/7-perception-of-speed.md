@@ -47,7 +47,7 @@ clicks: 6
 
 
 <div v-if="$slidev.nav.clicks >= 5" v-mark.red="6" class="absolute bottom-15 left-20">
-  tip: 緩慢的動畫會讓使用者出現感覺網站很慢的錯覺
+  tip: 用戶感知的速度比實際速度更重要
 </div>
 
 

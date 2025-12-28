@@ -4,7 +4,8 @@ import LoadingSpinner from "./loading-spinner.tsx";
 import DropdownMenu from "./dropdown-menu.tsx";
 import GoogleTabs from "./google-tabs.tsx";
 import CopyButton from "./copy-button.tsx";
-import { TasteComparison } from "./taste-comparison.tsx";
+import TasteComparison from "./taste-comparison.tsx";
+import SubmitForm from "./submit-form.tsx";
 
 export default {
   ToastButton,
@@ -14,4 +15,5 @@ export default {
   GoogleTabs,
   CopyButton,
   TasteComparison,
+  SubmitForm,
 };
