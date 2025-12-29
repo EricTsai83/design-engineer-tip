@@ -60,7 +60,7 @@ function ListToDetailWithAnimation() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/20 z-10 rounded-lg"
+              className="absolute inset-0 z-10 rounded-lg"
               style={{ transform: "none" }}
             />
             <div
@@ -107,7 +107,7 @@ function ListToDetailWithAnimation() {
                     height={200}
                     src={active.src}
                     alt={active.title}
-                    className="w-full h-full rounded-tr-lg rounded-tl-lg object-cover object-top"
+                    className="w-full h-full rounded-t-3xl object-cover object-top"
                   />
                 </motion.div>
 
