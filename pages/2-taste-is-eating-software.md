@@ -4,8 +4,7 @@ layout: default
 
 <br/>
 
-# 品味正在吞噬軟體，進而吞噬世界。 <span class="text-orange-400 text-base">Anu Atluru</span>
-
+# 品味正在吞噬軟體，進而吞噬世界 <span class="text-orange-400 text-base">Anu Atluru</span>
 
 <div class="grid grid-cols-[1fr_1.1fr] gap-10 mt-20">
 
