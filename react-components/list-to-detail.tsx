@@ -212,70 +212,57 @@ export const CloseIcon = () => {
 
 const cards = [
   {
-    description: "Lana Del Rey",
-    title: "Summertime Sadness",
-    src: "https://assets.aceternity.com/demos/lana-del-rey.jpeg",
-    ctaText: "Play",
+    description: "台灣東部海岸",
+    title: "太魯閣國家公園",
+    src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
+    ctaText: "查看詳情",
     ctaLink: "https://ui.aceternity.com/templates",
     content: () => {
       return (
         <p>
-          Lana Del Rey, an iconic American singer-songwriter, is celebrated for
-          her melancholic and cinematic music style. Born Elizabeth Woolridge
-          Grant in New York City, she has captivated audiences worldwide with
-          her haunting voice and introspective lyrics.
+          太魯閣國家公園位於台灣東部，以壯麗的峽谷景觀聞名於世。公園內有高聳的懸崖峭壁、清澈的溪流和豐富的生態系統。其中最著名的景點包括長春祠、燕子口和九曲洞，每一處都展現了大自然鬼斧神工的傑作。這裡不僅是登山健行的絕佳地點，更是攝影愛好者的天堂，四季皆有不同的美景等待探索。
         </p>
       );
     },
   },
   {
-    description: "Babbu Maan",
-    title: "Mitran Di Chhatri",
-    src: "https://assets.aceternity.com/demos/babbu-maan.jpeg",
-    ctaText: "Play",
+    description: "日本關西地區",
+    title: "京都清水寺",
+    src: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80",
+    ctaText: "查看詳情",
     ctaLink: "https://ui.aceternity.com/templates",
     content: () => {
       return (
         <p>
-          Babu Maan, a legendary Punjabi singer, is renowned for his soulful
-          voice and profound lyrics that resonate deeply with his audience. Born
-          in the village of Khant Maanpur in Punjab, India, he has become a
-          cultural icon in the Punjabi music industry.
-        </p>
-      );
-    },
-  },
-
-  {
-    description: "Metallica",
-    title: "For Whom The Bell Tolls",
-    src: "https://assets.aceternity.com/demos/metallica.jpeg",
-    ctaText: "Play",
-    ctaLink: "https://ui.aceternity.com/templates",
-    content: () => {
-      return (
-        <p>
-          Metallica, an iconic American heavy metal band, is renowned for their
-          powerful sound and intense performances that resonate deeply with
-          their audience. Formed in Los Angeles, California, they have become a
-          cultural icon in the heavy metal music industry.
+          清水寺是京都最古老的寺院之一，建於西元778年，被列為世界文化遺產。寺廟依山而建，主殿採用傳統的懸造結構，未使用一根釘子，展現了古代建築工藝的精湛。春季時櫻花盛開，秋季時楓葉轉紅，四季都有不同的風情。站在清水舞台俯瞰京都全景，感受千年古都的歷史底蘊與文化魅力。
         </p>
       );
     },
   },
   {
-    description: "Led Zeppelin",
-    title: "Stairway To Heaven",
-    src: "https://assets.aceternity.com/demos/led-zeppelin.jpeg",
-    ctaText: "Play",
+    description: "歐洲阿爾卑斯山",
+    title: "瑞士馬特洪峰",
+    src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&fit=crop",
+    ctaText: "查看詳情",
     ctaLink: "https://ui.aceternity.com/templates",
     content: () => {
       return (
         <p>
-          Led Zeppelin, a legendary British rock band, is renowned for their
-          innovative sound and profound impact on the music industry. Formed in
-          London in 1968, they have become a cultural icon in the rock music
-          world.
+          馬特洪峰是瑞士最著名的山峰之一，海拔4,478公尺，以其獨特的三角錐形狀成為阿爾卑斯山的象徵。這座山峰不僅是登山者的挑戰目標，更是攝影師和遊客的朝聖地。周邊的策馬特小鎮保留了傳統的瑞士風情，乘坐纜車可以欣賞到壯麗的冰川和雪峰景觀。無論是夏季的綠意盎然還是冬季的銀裝素裹，都令人嘆為觀止。
+        </p>
+      );
+    },
+  },
+  {
+    description: "中國西南地區",
+    title: "九寨溝風景區",
+    src: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800&q=80",
+    ctaText: "查看詳情",
+    ctaLink: "https://ui.aceternity.com/templates",
+    content: () => {
+      return (
+        <p>
+          九寨溝位於四川省，以多層瀑布、彩池和原始森林而聞名，被譽為「人間仙境」。這裡的水質清澈見底，呈現出夢幻般的藍綠色，倒映著周圍的雪山和森林，形成如詩如畫的美景。每個季節都有不同的風貌，春季山花爛漫，夏季綠意盎然，秋季層林盡染，冬季銀裝素裹。這片自然保護區不僅是視覺的饗宴，更是心靈的洗滌。
         </p>
       );
     },
