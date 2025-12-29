@@ -48,7 +48,7 @@ clicks: 7
   <React is="toast-button" variant="appropriate" />
 </div>
 <span v-mark.red="5" class="absolute bottom-15 left-20">
-  tip: 動畫要有「來自哪裡」的感覺。
+  tip: 動畫要有「來自哪裡」而不是「憑空出現」的感覺。
 </span>
 </div>
 
