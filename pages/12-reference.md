@@ -31,4 +31,9 @@ layout: center
 [https://emilkowal.ski/ui/good-vs-great-animations](https://emilkowal.ski/ui/good-vs-great-animations)
 </div>
 
+<div>
+<strong class="text-orange-400 font-bold">Taste Is Eating Silicon Valley.</strong>  
+[https://www.workingtheorys.com/p/taste-is-eating-silicon-valley](https://www.workingtheorys.com/p/taste-is-eating-silicon-valley)
+</div>
+
 </div>

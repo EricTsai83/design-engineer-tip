@@ -48,57 +48,68 @@ addons:
 
 Eric 的不專業設計分享
 
+<!-- 
+大家好，我是 Eric。
+
+今天想跟大家分享的主題是 “如何做出感覺對了的網站動畫”。會想要講這個主題的原因主要是因為在 AI 能力爆發的時代，AI 作為一個工具，它讓我們在開發「功能」上越來越簡單，大大縮縮短了一般工程師與優秀工程師的距離，也讓產品之間的競爭慢慢轉向一個抽象的概念 -「品味」。
+ -->
+
 ---
-src: ./pages/2-taste-is-eating-software.md
+src: ./pages/2-what-is-taste.md
 hide: false
 ---
 
 ---
-src: ./pages/3-taste-is-trained-instinct.md
+src: ./pages/3-taste-is-eating-software.md
 hide: false
 ---
 
 ---
-src: ./pages/4-stop-watching-start-building.md
+src: ./pages/4-taste-is-trained-instinct.md
 hide: false
 ---
 
 ---
-src: ./pages/5-what-is-design-engineer.md
+src: ./pages/5-stop-watching-start-building.md
 hide: false
 ---
 
 ---
-src: ./pages/6-product-oriented-animation-design.md
+src: ./pages/6-what-is-design-engineer.md
 hide: false
 ---
 
 ---
-src: ./pages/7-perception-of-speed.md
+src: ./pages/7-product-oriented-animation-design.md
 hide: false
 ---
 
 ---
-src: ./pages/8-ux.md
+src: ./pages/8-perception-of-speed.md
 hide: false
 ---
 
 ---
-src: ./pages/9-trust.md
+src: ./pages/9-ux.md
 hide: false
 ---
 
 ---
-src: ./pages/10-details-matter.md
+src: ./pages/10-trust.md
 hide: false
 ---
 
 ---
-src: ./pages/11-reference.md
+src: ./pages/11-details-matter.md
 hide: false
 ---
 
 ---
-src: ./pages/12-question.md
+src: ./pages/12-reference.md
+hide: false
+---
+
+---
+src: ./pages/13-question.md
 hide: false
 ---
