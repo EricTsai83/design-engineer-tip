@@ -85,30 +85,61 @@ export default function ListToDetail({ mode = "animated" }: ListToDetailProps) {
     const modalEl = modalRef.current;
     const first = startRect.current;
 
-    // Last: 取得目標位置
-    const last = modalEl.getBoundingClientRect();
-
-    // Invert: 計算差異
-    const deltaX = first.left - last.left + (first.width - last.width) / 2;
-    const deltaY = first.top - last.top + (first.height - last.height) / 2;
-    const scaleX = first.width / last.width;
-    const scaleY = first.height / last.height;
-
-    // 設定初始 transform（從卡片位置開始）
-    setFlipStyles({
-      transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
-      transition: "none",
-    });
-
-    // Play: 下一幀開始動畫
+    // 先讓 modal 顯示並定位，然後再計算
+    // 使用多個 requestAnimationFrame 確保 DOM 已更新
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
+        // Last: 取得目標位置（使用 viewport 座標）
+        const last = modalEl.getBoundingClientRect();
+
+        // 計算目標位置（居中位置）
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const targetCenterX = viewportWidth / 2;
+        const targetCenterY = viewportHeight / 2;
+
+        // 計算卡片中心點
+        const firstCenterX = first.left + first.width / 2;
+        const firstCenterY = first.top + first.height / 2;
+
+        // 計算 scale
+        const scaleX = first.width / last.width;
+        const scaleY = first.height / last.height;
+
+        // 設定初始 transform（從 item 位置開始）
+        // 直接使用 item 的中心點作為定位基準
+        // 使用 top/left 定位到 item 中心，然後用 translate(-50%, -50%) 讓 modal 中心對齊
         setFlipStyles({
-          transform: "translate(0, 0) scale(1, 1)",
-          transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          top: `${firstCenterY}px`,
+          left: `${firstCenterX}px`,
+          transform: `translate(-50%, -50%) scale(${scaleX}, ${scaleY})`,
+          transition: "none",
+          willChange: "transform",
+          transformOrigin: "center center",
         });
-        setAnimationState("expanded");
-        setIsExpanding(false);
+
+        // Play: 下一幀開始動畫
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            // 計算視窗中心點
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const targetCenterX = viewportWidth / 2;
+            const targetCenterY = viewportHeight / 2;
+
+            setFlipStyles({
+              top: `${targetCenterY}px`,
+              left: `${targetCenterX}px`,
+              transform: "translate(-50%, -50%) scale(1, 1)",
+              transition:
+                "top 0.3s cubic-bezier(0.4, 0, 0.2, 1), left 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              willChange: "transform",
+              transformOrigin: "center center",
+            });
+            setAnimationState("expanded");
+            setIsExpanding(false);
+          });
+        });
       });
     });
   }, [animationState, mode]);
@@ -138,15 +169,28 @@ export default function ListToDetail({ mode = "animated" }: ListToDetailProps) {
     const first = startRect.current;
     const last = modalEl.getBoundingClientRect();
 
-    const deltaX = first.left - last.left + (first.width - last.width) / 2;
-    const deltaY = first.top - last.top + (first.height - last.height) / 2;
+    // 計算目標位置（居中位置）
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const targetCenterX = viewportWidth / 2;
+    const targetCenterY = viewportHeight / 2;
+
+    // 計算卡片中心點
+    const firstCenterX = first.left + first.width / 2;
+    const firstCenterY = first.top + first.height / 2;
+
     const scaleX = first.width / last.width;
     const scaleY = first.height / last.height;
 
     setAnimationState("collapsing");
     setFlipStyles({
-      transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
-      transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      top: `${firstCenterY}px`,
+      left: `${firstCenterX}px`,
+      transform: `translate(-50%, -50%) scale(${scaleX}, ${scaleY})`,
+      transition:
+        "top 0.3s cubic-bezier(0.4, 0, 0.2, 1), left 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      willChange: "transform",
+      transformOrigin: "center center",
     });
 
     setTimeout(() => {
@@ -189,6 +233,17 @@ export default function ListToDetail({ mode = "animated" }: ListToDetailProps) {
 
   return (
     <>
+      {/* 隔離樣式，避免 Slidev CSS 影響動畫 */}
+      <style>{`
+        [data-list-to-detail-modal] {
+          isolation: isolate !important;
+          contain: layout style paint !important;
+        }
+        [data-list-to-detail-modal] * {
+          transform-box: border-box;
+        }
+      `}</style>
+
       {/* Backdrop */}
       {showBackdrop && (
         <div
@@ -201,7 +256,22 @@ export default function ListToDetail({ mode = "animated" }: ListToDetailProps) {
 
       {/* Expanded Card Modal */}
       {active && (
-        <div className="fixed inset-0 grid place-items-center z-[100]">
+        <div
+          data-list-to-detail-modal
+          className="fixed inset-0 z-[100]"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            isolation: "isolate",
+            contain: "layout style paint",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <button
             type="button"
             className={`absolute top-2 right-2 lg:hidden flex items-center justify-center bg-white rounded-full h-6 w-6 z-10 transition-opacity duration-200 ${
@@ -215,8 +285,22 @@ export default function ListToDetail({ mode = "animated" }: ListToDetailProps) {
 
           <div
             ref={modalRef}
-            style={mode === "instant" ? {} : flipStyles}
-            className="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden origin-center"
+            style={
+              mode === "instant"
+                ? {
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                  }
+                : {
+                    ...flipStyles,
+                    position: "absolute",
+                    top: flipStyles.top ?? "50%",
+                    left: flipStyles.left ?? "50%",
+                  }
+            }
+            className="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
           >
             <div
               className={`transition-opacity duration-200 ${
