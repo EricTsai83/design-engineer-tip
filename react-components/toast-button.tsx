@@ -16,21 +16,45 @@ export default function ToastButton({ variant }: ToastButtonProps) {
           [data-sonner-toast].wrong-toast-no-animation {
             animation: none !important;
             transition: none !important;
+            max-height: 80px !important;
+            overflow: hidden !important;
           }
           [data-sonner-toast].wrong-toast-no-animation[data-state="open"] {
             animation: none !important;
             transition: none !important;
+            max-height: 80px !important;
+            overflow: hidden !important;
           }
           [data-sonner-toast].wrong-toast-no-animation[data-state="closed"] {
             animation: none !important;
             transition: none !important;
+            max-height: 80px !important;
+            overflow: hidden !important;
           }
           [data-sonner-toast].wrong-toast-no-animation[data-swipe-direction] {
             animation: none !important;
             transition: none !important;
+            max-height: 80px !important;
+            overflow: hidden !important;
+          }
+          [data-sonner-toast].wrong-toast-no-animation:hover {
+            max-height: 80px !important;
+            overflow: hidden !important;
           }
         `}</style>
       )}
+      <style>{`
+        [data-sonner-toast] {
+          max-height: 80px !important;
+          height: 80px !important;
+          overflow: hidden !important;
+        }
+        [data-sonner-toast]:hover {
+          max-height: 80px !important;
+          height: 80px !important;
+          overflow: hidden !important;
+        }
+      `}</style>
       <Toaster
         id={toasterId}
         richColors

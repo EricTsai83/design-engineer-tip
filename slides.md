@@ -90,7 +90,7 @@ hide: false
 
 ---
 src: ./pages/10-details-matter.md
-hide: false
+hide: fals
 ---
 
 ---
