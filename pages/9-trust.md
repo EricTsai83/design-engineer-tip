@@ -34,8 +34,8 @@ clicks: 4
 <!-- 第二個例子：列表到詳情頁過渡 -->
 <div v-if="$slidev.nav.clicks >= 3" class="flex flex-col pt-3">
   <div class="flex justify-center gap-36">
-    <React is="list-to-detail"  mode="instant"/>
-    <React is="list-to-detail"  />
+    <React is="list-to-detail"  mode="static"/>
+    <React is="list-to-detail"  mode="animated"/>
 
   </div>
 </div>
