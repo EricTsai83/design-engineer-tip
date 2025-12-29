@@ -6,11 +6,9 @@ class: text-center
 # 最好的學習就是觀察
 
 <div class="text-2xl mt-4 opacity-80 max-w-2xl mx-auto">
-  網站開發者的品味來自於分析 <b class="text-orange-400 opacity-100 text-3xl">為什麼</b> 某個東西看起來很棒，<br/>
+  品味的學習來自於分析 <b class="text-orange-400 opacity-100 text-3xl">為什麼</b> 某個東西看起來很棒，<br/>
   然後 <b class="text-orange-400 opacity-100 text-3xl">實踐它</b>。
 </div>
-
-
 
 <!--
 講者備註:
