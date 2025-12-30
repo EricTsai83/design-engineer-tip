@@ -78,7 +78,7 @@ export default function TasteComparison({
           <PopupContent onClose={handleClosePopup}>
             <div className="flex flex-row gap-8 items-center justify-center py-8">
               <AnimationSection
-                title="沒有品味的直覺"
+                title="沒有品味的動畫"
                 isVisible={noTasteVisible}
                 onClick={handleNoTasteClick}
                 buttonColor="red"
@@ -87,7 +87,7 @@ export default function TasteComparison({
                 ariaLabel="讓圓球消失（沒有品味）"
               />
               <AnimationSection
-                title="有品味的直覺"
+                title="有品味的動畫"
                 isVisible={withTasteVisible}
                 onClick={handleWithTasteClick}
                 buttonColor="green"
