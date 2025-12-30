@@ -29,11 +29,11 @@ clicks: 7
 <!-- 第二步：顯示按鈕 -->
 <div v-if="$slidev.nav.clicks === 2 || $slidev.nav.clicks === 3" >
 
-  <div class="flex gap-8 justify-center m-24">
+  <div class="flex gap-8 justify-center m-20">
 
-  <button class="cursor-pointer bg-blue-600 text-white px-8 py-4 rounded-md hover:bg-blue-500">Click me</button>
+  <button class="cursor-pointer bg-blue-600 text-white px-12 py-6 rounded-md hover:bg-blue-500">Click me</button>
 
-  <button class="cursor-pointer bg-blue-600 text-white px-8 py-4 rounded-md active:bg-blue-500 hover:bg-blue-500 active:scale-[0.97] transition-all duration-300">Click me</button>
+  <button class="cursor-pointer bg-blue-600 text-white px-12 py-6 rounded-md active:bg-blue-500 hover:bg-blue-500 active:scale-[0.95] transition-all duration-300">Click me</button>
 
   </div>
     <span v-mark.red="3" class="absolute bottom-15 left-20">
@@ -66,9 +66,10 @@ clicks: 7
 
 
 <!--
-在這個例子當中，cursor 大可選擇靜態圖片，或是一些酷炫的動畫效果，但他選擇了在他的首頁中最顯眼的位置展示 cursor 是一個什麼樣的工具。
+這一頁我想講的是產品導向的動畫設計，
+以產品角度，動畫的設計應該要能夠提升產品體驗。而不是為了酷
 
-讓按下按鈕時，做微微縮小的動畫效果，這樣可以讓使用者知道按鈕被按下，並且感受到按鈕的反饋。雖然只是個小細節，但卻能讓介面感覺更加靈動些。
+先看一段影片，這是 cursor 的首頁動畫。我應該不用介紹 cursor 是什麼吧？我想大家應該都很熟悉了。畢竟在攻程菁英上出現過這麼多次了
 
-突然出現一個 toast 圖示會顯得突兀，所以我們設計了動畫效果。 且讓它從同一方向出現和消失，因此營造了空間上的一致性，使下滑關閉的手勢更加直觀。
+
 -->
