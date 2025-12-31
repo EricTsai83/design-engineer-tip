@@ -66,17 +66,17 @@ hide: false
 
 ---
 src: ./pages/4-taste-is-trained-instinct.md
-hide: false
+hide: true
 ---
 
 ---
 src: ./pages/5-stop-watching-start-building.md
-hide: false
+hide: true
 ---
 
 ---
 src: ./pages/6-what-is-design-engineer.md
-hide: false
+hide: true
 ---
 
 ---
